@@ -148,11 +148,11 @@ class ManageGamePage extends React.Component {
       errors.push('- Both teams must have equal numbers of players');
     }
     // a team must have at least 2 players but less than 5
-    if( winners.length < 2) {
-      errors.push("- Winning team must have at least 2 players")
+    if( winners.length < 3) {
+      errors.push("- Winning team must have at least 3 players")
     }
-    if( losers.length < 2) {
-      errors.push('- Losing team must have at least 2 players')
+    if( losers.length < 3) {
+      errors.push('- Losing team must have at least 3 players')
     }
     if( winners.length > 5) {
       errors.push("- Winning team must have less than 5 players")
@@ -199,13 +199,14 @@ class ManageGamePage extends React.Component {
 
     const {winners, losers} = this.state;
     game = {winners, losers}
+
     this.props.dispatch(saveGame( game, gameID))
-      .then( () => this.props.history.push("/") )
+      .then( () => {
+        this.props.history.push("/")
+      })
       .catch( err => {
         this.setState({isSubmitting: false});
       });
-    // update app state
-    this.props.dispatch(loadPlayers());
     return;
   }
 
@@ -276,9 +277,9 @@ class ManageGamePage extends React.Component {
     if( selectedPlayers.length > 10) {
       errors.push('Number of players must be equal or less than 10')
     }
-    // if less than 4
-    if(selectedPlayers.length < 4) {
-      errors.push("Number of players must be more than 4")
+    // if less than 6
+    if(selectedPlayers.length < 6) {
+      errors.push("Number of players must be at least 6 players")
     }
     
     if(errors.length === 0) {
@@ -633,12 +634,11 @@ function mapStateToProps(state, ownProps){
     }
   } 
 
-  if(games && games.length > 0 && gameId) {
-    game = selectById(games, gameId);
+  if(games.games && games.games.length > 0 && gameId) {
+    game = selectById(games.games, gameId);
   }
   
   return {
-    game,
     players,
     playerList
   }

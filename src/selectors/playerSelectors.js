@@ -32,7 +32,7 @@ export function sortAlphabetically(players) {
 
   return players;
 }
-export function rankPlayers(players) {
+export function rankPlayers(players, mostPlayedGameType = 3) {
   // sort players by winning percentage
   players.sort((a,b) => {
     let playerA = +caculateWinningPercentage(a.wins, a.losses),
@@ -40,15 +40,19 @@ export function rankPlayers(players) {
     return playerB - playerA;
   })
   
-  // calculate average or median participation which for now should be the average between top 6 active players, and let us say every meeting the average games will be 5 so if a player miss two metting he will most likely be out
+  // calculate average or median participation which for now should be the average between top 8 or 6 active players, 
+  // if most games are played 4 vs 4, for now let's assume it's 4v4
   let sumOfTopAttendees = players
       .map( player => +caculateTotalGamesPlayed(player.wins, player.losses))
       .sort((a,b) => b - a)
-      .slice(0,7)
-      .reduce((prev, cur) => cur += prev, 0 ),
-      medianAttendance = +(sumOfTopAttendees / 6).toFixed(2),
-      minimumParticipationDifference = 10;
-    
+      .slice(0, (mostPlayedGameType * 2))
+      .reduce((prev, cur) => cur += prev, 0 )
+  
+  let medianAttendance = Math.floor(+(sumOfTopAttendees / (mostPlayedGameType * 2)))
+
+      console.log("top attendess of", mostPlayedGameType * 2)
+      console.log("sum of tope attendees", sumOfTopAttendees)
+      console.log("median attendance", medianAttendance)
   // filter players with player higher than the median participation rate
-  return players.filter( player =>  medianAttendance - +caculateTotalGamesPlayed(player.wins, player.losses) <= minimumParticipationDifference )
+  return players.filter( player =>  +caculateTotalGamesPlayed(player.wins, player.losses) >= medianAttendance)
 }

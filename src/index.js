@@ -14,9 +14,6 @@ const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 const store = createStoreWithMiddleware(Reducer , window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
-store.dispatch(loadPlayers());
-store.dispatch(loadGames());
-
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

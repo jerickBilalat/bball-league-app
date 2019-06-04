@@ -6,25 +6,40 @@ import {playersCollection} from "./mockPlayerAPI";
 let gamesCollection = [
   {
     "_id": "5c6962c7dea78f39a079fb04",
-    "winners": ["Bo","Allen", "Del"],
-    "losers": ["Bong", "Ron", "Jerick"],
-    "createdAt": "2019-02-17T13:33:59.273Z",
-    "updatedAt": "2019-02-17T13:33:59.273Z"
+    "winners": ["Del","Allen", "Bong", "Evan"],
+    "losers": ["Bo", "Rymart", "Jerick", "Ron"],
+    "createdAt": "2019-05-27T13:33:59.273Z",
+    "updatedAt": "2019-05-27T13:33:59.273Z"
   },
   {
-    "_id": "5c6962c7dea72f39a079fb04",
-    "winners": ["Bo","Allen", "Del"],
-    "losers": ["Bong", "Ron", "Jerick"],
-    "createdAt": "2019-02-17T13:33:59.273Z",
-    "updatedAt": "2019-02-17T13:33:59.273Z"
+    "_id": "5c6962c7dea72f39a079fb05",
+    "winners": ["Bo", "Rymart", "Jerick", "Ron"],
+    "losers": ["Del","Allen", "Bong", "Evan"],
+    "createdAt": "2019-05-27T13:33:59.273Z",
+    "updatedAt": "2019-05-27T13:33:59.273Z"
   },
   {
-    "_id": "5c6962c7dea75f39a079fb04",
-    "winners": ["Bo","Allen", "Del"],
-    "losers": ["Bong", "Ron", "Jerick"],
-    "createdAt": "2019-02-17T13:33:59.273Z",
-    "updatedAt": "2019-02-17T13:33:59.273Z"
-  }
+    "_id": "5c6962c7dea75f39a079fb06",
+    "winners": ["Bo", "Rymart", "Jerick", "Ron", "Mark"],
+    "losers": ["Del","Allen", "Bong", "Evan", "Kurt"],
+    "createdAt": "2019-05-27T13:33:59.273Z",
+    "updatedAt": "2019-05-27T13:33:59.273Z"
+  },
+  {
+    "_id": "5c6962c7dea75f39a079fb07",
+    "winners": ["Allen", "Bo", "Rymart", "Zion", "Kurt"],
+    "losers": ["Del","Ron", "Bong", "Jerick", "Mark"],
+    "createdAt": "2019-05-27T13:33:59.273Z",
+    "updatedAt": "2019-05-27T13:33:59.273Z"
+  },
+  {
+    "_id": "5c6962c7dea75f39a079fb08",
+    "winners": ["Ron", "Bo", "Del"],
+    "losers": ["Bong", "Rymart", "Jerick"],
+    "createdAt": "2019-05-27T13:33:59.273Z",
+    "updatedAt": "2019-05-27T13:33:59.273Z"
+  },
+
 ];
 
 function increaseStatByOne(statValue) {
@@ -35,7 +50,39 @@ class GameApi {
   static getAllGames() {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        resolve(Object.assign([], gamesCollection));
+        let teams = [0,0,0]
+        let mostPlayedGameType = 3
+
+        gamesCollection.forEach( record => {
+          switch (record.winners.length) {
+            case 3:
+              teams[0] += 1
+              break
+            case 4:
+              teams[1] += 1
+              break
+            case 5:
+              teams[2] += 1
+              break
+            default:
+              throw new Error("games records error")
+          }
+        })
+        
+        switch(teams.lastIndexOf(Math.max(...teams))) {
+          case 0:
+              mostPlayedGameType = 3
+            break
+          case 1:
+              mostPlayedGameType = 4
+            break
+          case 2:
+              mostPlayedGameType = 5
+            break
+          default:
+            throw new Error("team types is not valid")
+        }
+        resolve({gameList: gamesCollection, mostPlayedGameType: mostPlayedGameType});
       }, delay);
     });
   }

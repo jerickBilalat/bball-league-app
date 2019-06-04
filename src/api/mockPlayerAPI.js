@@ -7,57 +7,69 @@ export let playersCollection = [
   {
     _id: "del",
     name: "del",
-    wins: "7",
-    losses: "8",
+    wins: "2",
+    losses: "4",
   },
   {
     _id: "allen",
     name: "allen",
-    wins: "9",
-    losses: "7"
+    wins: "3",
+    losses: "2"
   },
   {
     _id: "ron",
     name: "ron",
-    wins: "5",
-    losses: "10"
+    wins: "3",
+    losses: "3"
   },
   {
     _id: "bo",
     name: "bo",
-    wins: "6",
-    losses: "9"
+    wins: "5",
+    losses: "1"
   },
   {
     _id: "bong",
     name: "bong",
-    wins: "10",
-    losses: "5"
+    wins: "2",
+    losses: "4"
   },
   {
     _id: "jerick",
     name: "jerick",
-    wins: "4",
-    losses: "12"
-  },
-  {
-    _id: "eric",
-    name: "eric",
-    wins: "3",
-    losses: "1",
+    wins: "2",
+    losses: "4"
   },
   {
     _id: "mark",
     name: "mark",
-    wins: "2",
+    wins: "1",
     losses: "2",
   },
   {
-    _id: "louie",
-    name: "louie",
-    wins: "5",
+    _id: "kurt",
+    name: "kurt",
+    wins: "1",
+    losses: "1",
+  },
+  {
+    _id: "zion",
+    name: "zion",
+    wins: "1",
     losses: "0",
   },
+  {
+    _id:"rymart",
+    name: "rymart",
+    wins: "4",
+    losses: "2"
+  },
+  {
+    _id:"evan",
+    name: "evan",
+    wins: "1",
+    losses: "2"
+  }
 ];
 
 // let client do this functionality

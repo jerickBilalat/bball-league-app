@@ -13,6 +13,10 @@ import Paper from '@material-ui/core/Paper';
 
 import {rankPlayers, sortAlphabetically} from "../selectors/playerSelectors";
 
+// actions
+import { loadPlayers } from "../actions/playerActions";
+import { loadGames } from "../actions/gameActions";
+
 import RankedPlayersTable from "../components/RankedPlayersTable";
 import GameRecordsTable from "../components/GameRecordsTable";
 
@@ -46,6 +50,10 @@ class RankingPage extends React.Component {
     this.props.history.push(`/manage_player/${id}`);
   }
 
+  componentDidMount() {
+    this.props.dispatch(loadPlayers());
+    this.props.dispatch(loadGames());
+  }
   handleTabChange = ( event, value) => {
     this.setState({value})
   }
@@ -91,10 +99,11 @@ RankingPage.propTypes = {
 
 
 function mapStateToProps(state, ownProps) {
+  
   return {
-    games: [...state.games],
+    games: [...state.games.gameList],
     players: [...sortAlphabetically(state.players)],
-    rankedPlayers: [...rankPlayers(state.players)]
+    rankedPlayers: [...rankPlayers(state.players, state.games.mostPlayedGameType)]
   }
 }
 
