@@ -61,7 +61,7 @@ class RankingPage extends React.Component {
     this.setState({isShowRankedPlayers : !this.state.isShowRankedPlayers})
   }
   render() {
-    const { classes, players, rankedPlayers, games} = this.props,
+    const { classes, players, rankedPlayers, games, user} = this.props,
           {value} = this.state;
     return (
       <Fragment>
@@ -84,10 +84,12 @@ class RankingPage extends React.Component {
           {value === 1 && <div className={classes.tableContainer}>
           <GameRecordsTable games={games}/>
         </div>}
-
-        <Fab color="primary" aria-label="Add" component={Link} to={"/manage_game"} className={classes.fab}>
-          <AddIcon />
-        </Fab>
+        {user && 
+          <Fab color="primary" aria-label="Add" component={Link} to={"/manage_game"} className={classes.fab}>
+            <AddIcon />
+          </Fab>
+        }
+        
       </Fragment>
     );
   }
@@ -101,6 +103,7 @@ RankingPage.propTypes = {
 function mapStateToProps(state, ownProps) {
   
   return {
+    user: state.user,
     games: [...state.games.gameList],
     players: [...sortAlphabetically(state.players)],
     rankedPlayers: [...rankPlayers(state.players, state.games.mostPlayedGameType)]

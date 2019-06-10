@@ -7,7 +7,7 @@ function loginSuccess(user) {
   return { type: LOGIN_SUCCESS, user }
 }
 function loginFailure(error) {
-  return { type: LOGIN_SUCCESS, error }
+  return { type: LOGIN_ERROR, error }
 }
 
 
@@ -15,8 +15,8 @@ export function login(credentials) {
   return function(dispatch) {
     return API
       .login(credentials)
-      .then( res => {
-        dispatch(loginSuccess(res.data.user))
+      .then( user => {
+        dispatch(loginSuccess(user))
       })
       .catch( error => {
         dispatch(loginFailure(error))

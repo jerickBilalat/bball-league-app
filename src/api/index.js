@@ -19,7 +19,7 @@ function login(credentials) {
     .post('/auth/signin', credentials)
     .then( res => {
       AuthUtils.setToken(res.data.token)
-      return res
+      return AuthUtils.getUser(res.data.token)
     })
 }
 
