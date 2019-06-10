@@ -1,7 +1,12 @@
 import React from 'react';
 import {Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
+
+
+// mateial ui
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -95,7 +100,7 @@ class Layout extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, user } = this.props;
 
     return (
       <div className={classes.root}>
@@ -123,12 +128,21 @@ class Layout extends React.Component {
             >
               Bball League
             </Typography>
-            <Button 
-              component={Link}
-              to={"/login"}
-              color="inherit">
-              Admin Login
-            </Button>
+            {user && user.admin
+            ? <Button 
+                component={Link}
+                to={"/login"}
+                color="inherit">
+                Log Out
+              </Button> 
+            : <Button 
+                component={Link}
+                to={"/login"}
+                color="inherit">
+                Log In
+              </Button>
+            }
+            
           </Toolbar>
         </AppBar>
         <main className={classes.content}>
@@ -144,4 +158,10 @@ Layout.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Layout);
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(styles)(Layout))

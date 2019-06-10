@@ -8,43 +8,43 @@ export let playersCollection = [
     _id: "del",
     name: "del",
     wins: "2",
-    losses: "4",
+    losses: "3",
   },
   {
     _id: "allen",
     name: "allen",
-    wins: "3",
+    wins: "2",
     losses: "2"
   },
   {
     _id: "ron",
     name: "ron",
     wins: "3",
-    losses: "3"
+    losses: "2"
   },
   {
     _id: "bo",
     name: "bo",
-    wins: "5",
+    wins: "4",
     losses: "1"
   },
   {
     _id: "bong",
     name: "bong",
-    wins: "2",
+    wins: "1",
     losses: "4"
   },
   {
     _id: "jerick",
     name: "jerick",
     wins: "2",
-    losses: "4"
+    losses: "3"
   },
   {
     _id: "mark",
     name: "mark",
     wins: "1",
-    losses: "2",
+    losses: "1",
   },
   {
     _id: "kurt",
@@ -61,7 +61,7 @@ export let playersCollection = [
   {
     _id:"rymart",
     name: "rymart",
-    wins: "4",
+    wins: "3",
     losses: "2"
   },
   {

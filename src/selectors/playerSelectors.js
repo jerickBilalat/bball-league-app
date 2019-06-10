@@ -49,10 +49,6 @@ export function rankPlayers(players, mostPlayedGameType = 3) {
       .reduce((prev, cur) => cur += prev, 0 )
   
   let medianAttendance = Math.floor(+(sumOfTopAttendees / (mostPlayedGameType * 2)))
-
-      console.log("top attendess of", mostPlayedGameType * 2)
-      console.log("sum of tope attendees", sumOfTopAttendees)
-      console.log("median attendance", medianAttendance)
   // filter players with player higher than the median participation rate
   return players.filter( player =>  +caculateTotalGamesPlayed(player.wins, player.losses) >= medianAttendance)
 }
