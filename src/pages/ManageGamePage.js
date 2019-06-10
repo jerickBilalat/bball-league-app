@@ -616,29 +616,19 @@ function capitalize(string) {
 }
 
 function mapStateToProps(state, ownProps){
-  const { players, games } = state,
+  const { players, games, user } = state,
         playerList = players.map( player => capitalize(player.name)).sort(),
         gameId = ownProps.match.params.id;
   let game;
-
+  // todo do manage game locgic
   if(!gameId) {
-    game = {
-      name: "",
-      used: false,
-      description: "",
-      price: "",
-      inStock: 1,
-      sold: 0,
-      publish: true,
-      images: []
-    }
-  } 
-
-  if(games.games && games.games.length > 0 && gameId) {
-    game = selectById(games.games, gameId);
+    game = {winners: [], losers: [], createdBy: user.sub, updatedBy: user.sub}
+  }else if(games.gameList && games.gameList.length > 0 && gameId) {
+    game = selectById(games.gameList, gameId);
   }
   
   return {
+    game,
     players,
     playerList
   }

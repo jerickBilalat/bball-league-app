@@ -46,10 +46,15 @@ class RankingPage extends React.Component {
     isShowRankedPlayers: true,
     value: 0,
   }
-  doGoToManageProductPage = (id) => {
+
+  // todo add this to view or edit players on the table
+  doGoToManagePlayerPage = (id) => {
     this.props.history.push(`/manage_player/${id}`);
   }
 
+  doGoToManageGamePage = (id) => {
+    this.props.history.push(`/manage_game/${id}`);
+  }
   componentDidMount() {
     this.props.dispatch(loadPlayers());
     this.props.dispatch(loadGames());
@@ -78,11 +83,11 @@ class RankingPage extends React.Component {
           </Tabs>
         </Paper>
           {value === 0 && <div className={classes.tableContainer}>
-              <RankedPlayersTable doGoToManageProductPage={this.doGoToManageProductPage} players={players} rankedPlayers={rankedPlayers}/>          
+              <RankedPlayersTable doGoToManagePlayerPage={this.doGoToManagePlayerPage} players={players} rankedPlayers={rankedPlayers}/>          
             </div>
           }
           {value === 1 && <div className={classes.tableContainer}>
-          <GameRecordsTable games={games}/>
+          <GameRecordsTable doGoToManageGamePage={this.doGoToManageGamePage} games={games}/>
         </div>}
         {user && 
           <Fab color="primary" aria-label="Add" component={Link} to={"/manage_game"} className={classes.fab}>

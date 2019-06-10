@@ -42,7 +42,7 @@ class PlayerStatsTable extends React.Component {
     this.setState({ isShowAllPlayers: !this.state.isShowAllPlayers });
   };
   render() {
-    const { classes, doGoToManageProductPage, players, rankedPlayers } = this.props;
+    const { classes, doGoToManagePlayerPage, players, rankedPlayers } = this.props;
 
     const { isShowAllPlayers } = this.state;
 
@@ -88,7 +88,7 @@ class PlayerStatsTable extends React.Component {
           </TableHead>
           <TableBody>
             {rows.map((row, idx) => (
-              <TableRow hover onClick={(e) => doGoToManageProductPage(row.id, e)} key={row.id}>
+              <TableRow hover key={row.id}>
                 {!isShowAllPlayers && 
                   <TableCell component="th" scope="row">
                   {idx+1}

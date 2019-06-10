@@ -65,7 +65,7 @@ function GameRecordsTable(props) {
         </TableHead>
         <TableBody>
           {rows.map(row => (
-            <TableRow hover onClick={(e) => doGoToManageGamePage(row.id, e)} key={row.id}>
+            <TableRow hover key={row.id}>
               <TableCell component="th" scope="row">{row.createdAt}</TableCell>
               <TableCell align="right">{row.winners.join(", ")}</TableCell>
               <TableCell align="right">{row.losers.join(", ")}</TableCell>
