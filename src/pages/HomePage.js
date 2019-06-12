@@ -11,6 +11,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 
+// utils
+import {capitalize} from "../utils/index";
+
+// selectors
 import {rankPlayers, sortAlphabetically} from "../selectors/playerSelectors";
 
 // actions
@@ -106,12 +110,15 @@ RankingPage.propTypes = {
 
 
 function mapStateToProps(state, ownProps) {
-  
+  let players = [...state.players],
+      games = [...state.games.gameList],
+      rankedPlayers = [...rankPlayers(state.players, state.games.mostPlayedGameType)]
+
   return {
     user: state.user,
-    games: [...state.games.gameList],
-    players: [...sortAlphabetically(state.players)],
-    rankedPlayers: [...rankPlayers(state.players, state.games.mostPlayedGameType)]
+    games,
+    players,
+    rankedPlayers
   }
 }
 

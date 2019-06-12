@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
-import playerAPI from '../api/mockPlayerAPI';
+import mockPlayerAPI from '../api/mockPlayerAPI';
+import playerAPI from '../api';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 export function loadPlayersSuccess(players) {
@@ -20,7 +21,6 @@ export function loadPlayers() {
     return playerAPI
       .getAllPlayers()
       .then(players => {
-        
         dispatch(loadPlayersSuccess(players));
       })
       .catch(error => {

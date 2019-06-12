@@ -27,7 +27,11 @@ function login(credentials) {
 
 // PLAYERS
 function getAllPlayers() {
-  return api.get('/players')
+  return api
+    .get('/players')
+    .then( res => {
+      return res.data
+    })
 }
 
 function createNewPlayer(playerName) {
