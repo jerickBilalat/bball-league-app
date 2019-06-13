@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import gameAPI from '../api/mockGameAPI';
+import gameAPI from '../api';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 
 export function loadGamesSuccess(gamesData) {

@@ -30,8 +30,8 @@ const styles = theme => ({
   },
 });
 
-function createData(id, createdAt, winners, losers) {
-  return { id,  createdAt, winners, losers};
+function createData(id, createdAt, createdBy, updatedBy, winners, losers) {
+  return { id,  createdAt, createdBy, updatedBy, winners, losers};
 }
 
 
@@ -40,9 +40,9 @@ function GameRecordsTable(props) {
     doGoToManageGamePage,
     games } = props;
   const rows = games.map(game => {
-    let {_id: id,  createdAt, winners, losers} = game;
+    let {_id: id, createdAt, createdBy, updatedBy, winners, losers} = game;
     createdAt = formatDate(createdAt);
-    return createData(id,  createdAt, winners, losers);
+    return createData(id,  createdAt, createdBy, updatedBy, winners, losers);
   })
   return (
     <Paper className={classes.root}>
@@ -59,6 +59,7 @@ function GameRecordsTable(props) {
         <TableHead>
           <TableRow>
             <TableCell>Date</TableCell>
+            <TableCell>Posted By</TableCell>
             <TableCell align="right">Winners</TableCell>
             <TableCell align="right">Losers</TableCell>
           </TableRow>
@@ -67,6 +68,7 @@ function GameRecordsTable(props) {
           {rows.map(row => (
             <TableRow hover key={row.id}>
               <TableCell component="th" scope="row">{row.createdAt}</TableCell>
+              <TableCell component="th" scope="row">{row.createdBy}</TableCell>
               <TableCell align="right">{row.winners.join(", ")}</TableCell>
               <TableCell align="right">{row.losers.join(", ")}</TableCell>
             </TableRow>

@@ -42,7 +42,11 @@ function createNewPlayer(playerName) {
 
 // GAMES
 function getAllGames() {
-  return api.get('/games')
+  return api
+    .get('/games')
+    .then( res => {
+      return res.data
+    })
 }
 
 function createNewGame(game) {
