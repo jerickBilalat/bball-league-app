@@ -96,6 +96,11 @@ function createMatchUp(players) {
     teamB
   }
 }
+
+function getPlayerNameByID(playerList, playerID) {
+  return playerList.filter(player => player._id === playerID)[0].name || 'no name'
+}
+
 class ManageGamePage extends React.Component {
   state = {
     isSubmitting: false,
@@ -115,27 +120,27 @@ class ManageGamePage extends React.Component {
   handleTabChange = ( event, tabValue) => {
     this.setState({tabValue})
   }
-  handleWinnerListChange = name => event => {
+  handleWinnerListChange = playerID => event => {
     const { winners } = this.state;
     
-    winners.includes(name)
+    winners.includes(playerID)
     ?  this.setState({
-       winners: winners.filter(playerName => name !== playerName) 
+       winners: winners.filter(winnerPlayerID => playerID !== winnerPlayerID) 
     })
     :  this.setState({
-      winners: [...winners, name]
+      winners: [...winners, playerID]
     })
   }
 
-  handleLoserListChange = name => event => {
+  handleLoserListChange = playerID => event => {
     const { losers } = this.state;
     
-    losers.includes(name)
+    losers.includes(playerID)
     ?  this.setState({
-        losers: losers.filter(playerName => name !== playerName) 
+        losers: losers.filter(loserPlayerID => playerID !== loserPlayerID) 
       })
     :  this.setState({
-        losers: [...losers, name] 
+        losers: [...losers, playerID] 
       })
   }
 
@@ -180,11 +185,14 @@ class ManageGamePage extends React.Component {
   handleGameSubmit = (event) => {
     event.preventDefault();
     if(!this.isGameValid()) return;
-    let game;
-    const {game: unmodifiedGame } = this.props,
-          gameID = this.props.match.params.id;
 
+    const game = {},
+      {game: unmodifiedGame } = this.props,
+      gameID = this.props.match.params.id;
+
+    // todo update game
     if(gameID) {
+      // todo wrong logic, there is no game property in the local state
       const { game: modifiedGame } =  this.state;
       game = {};
     
@@ -198,7 +206,9 @@ class ManageGamePage extends React.Component {
     this.setState({isSubmitting: true})
 
     const {winners, losers} = this.state;
-    game = {winners, losers}
+    
+    game.winners = winners
+    game.losers = losers
 
     this.props.dispatch(saveGame( game, gameID))
       .then( () => {
@@ -216,6 +226,7 @@ class ManageGamePage extends React.Component {
 
   isPlayerValid = () => {
     const { newPlayerName  } = this.state;
+    // todo update: player is now an object
     let playerList = this.props.playerList.map(player => player.toLowerCase());
     
     let errors = [];
@@ -255,13 +266,13 @@ class ManageGamePage extends React.Component {
   }
 
   handleAddSelectedPlayer = event => {
-    const playerName = event.target.value;
+    const playerID = event.target.value;
     const { selectedPlayers } = this.state;
 
-    if(!selectedPlayers.includes(playerName)) {
-      this.setState({ selectedPlayers : [...selectedPlayers, playerName]})
+    if(!selectedPlayers.includes(playerID)) {
+      this.setState({ selectedPlayers : [...selectedPlayers, playerID]})
     }else {
-      this.setState({ selectedPlayers: [...selectedPlayers].filter( name => name !== playerName)})
+      this.setState({ selectedPlayers: [...selectedPlayers].filter( selectedPlayerID => selectedPlayerID !== playerID)})
     }
     
   }
@@ -376,10 +387,10 @@ class ManageGamePage extends React.Component {
                           </Typography>
                           <div className={classes.demo}>
                             <List>
-                              {teamA.map( player => (
-                                <ListItem key={player} >
+                              {teamA.map( playerID => (
+                                <ListItem key={playerID} >
                                   <ListItemText
-                                    primary={player}
+                                    primary={getPlayerNameByID(playerList, playerID)}
                                   />
                                 </ListItem>
                               ))}
@@ -413,10 +424,10 @@ class ManageGamePage extends React.Component {
                           </Typography>
                           <div className={classes.demo}>
                             <List>
-                              {teamB.map( player => (
-                                <ListItem key={player} >
+                              {teamB.map( playerID => (
+                                <ListItem key={playerID} >
                                   <ListItemText
-                                    primary={player}
+                                    primary={getPlayerNameByID(playerList, playerID)}
                                   />
                                 </ListItem>
                               ))}
@@ -454,11 +465,11 @@ class ManageGamePage extends React.Component {
                           <FormGroup>
                             {playerList.map( player => (
                               <FormControlLabel
-                                key={player}
+                                key={player._id}
                                 control={
-                                  <Checkbox checked={selectedPlayers.includes(player)} onChange={this.handleAddSelectedPlayer} value={player} />
+                                  <Checkbox checked={selectedPlayers.includes(player._id)} onChange={this.handleAddSelectedPlayer} value={player._id} />
                                 }
-                                label={player}
+                                label={player.name}
                               />
                             ))}
                           </FormGroup>
@@ -482,8 +493,8 @@ class ManageGamePage extends React.Component {
                             <FormControl component="fieldset" className={classes.formControl}>
                                 <FormLabel component="legend">Players {`(${selectedPlayers.length})`}</FormLabel>
                                 <ul>
-                                  {selectedPlayers.map( player => (        
-                                    <li key={player}>{player}</li>
+                                  {selectedPlayers.map( playerID => (        
+                                    <li key={playerID}>{getPlayerNameByID(playerList, playerID)}</li>
                                   ))}
                                 </ul>
                             </FormControl>
@@ -541,13 +552,13 @@ class ManageGamePage extends React.Component {
                     <FormLabel component="legend">Winners</FormLabel>
                     <FormGroup>
                       {playerList.map( player => (
-                        !losers.includes(player) &&
+                        !losers.includes(player._id) &&
                         <FormControlLabel
-                          key={player}
+                          key={player._id}
                           control={
-                            <Checkbox checked={winners.includes(player)} onChange={this.handleWinnerListChange(player)} value={player} />
+                            <Checkbox checked={winners.includes(player._id)} onChange={this.handleWinnerListChange(player._id)} value={player._id} />
                           }
-                          label={player}
+                          label={player.name}
                         />
                       ))}
                     </FormGroup>
@@ -560,13 +571,13 @@ class ManageGamePage extends React.Component {
                     <FormLabel component="legend">Lossers</FormLabel>
                     <FormGroup>
                       {playerList.map( player => (
-                        !winners.includes(player) &&
+                        !winners.includes(player._id) &&
                         <FormControlLabel
-                          key={player}
+                          key={player._id}
                           control={
-                            <Checkbox checked={losers.includes(player)} onChange={this.handleLoserListChange(player)} value={player} />
+                            <Checkbox checked={losers.includes(player._id)} onChange={this.handleLoserListChange(player._id)} value={player._id} />
                           }
-                          label={player}
+                          label={player.name}
                         />
                       ))}
                     </FormGroup>
@@ -611,26 +622,20 @@ function selectById(games, id) {
   return game;
 }
 
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 function mapStateToProps(state, ownProps){
-  const { players, games, user } = state,
-        playerList = players.map( player => capitalize(player.name)).sort(),
+  const { players, games } = state,
         gameId = ownProps.match.params.id;
   let game;
   // todo do manage game locgic
   if(!gameId) {
-    game = {winners: [], losers: [], createdBy: user.sub, updatedBy: user.sub}
+    game = {}
   }else if(games.gameList && games.gameList.length > 0 && gameId) {
     game = selectById(games.gameList, gameId);
   }
   
   return {
     game,
-    players,
-    playerList
+    playerList: players
   }
   
 }

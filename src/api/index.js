@@ -50,9 +50,11 @@ function getAllGames() {
 }
 
 function createNewGame(game) {
-  return authenticatedAPI.post('games/create_game')
+  return authenticatedAPI.post('games/create_game', game)
 }
+
 // todo update game
+function updateGame(game, gameID) { return }
 
 
 export default {
@@ -60,6 +62,7 @@ export default {
   getAllPlayers,
   getAllGames,
   createNewPlayer,
-  createNewGame
+  createNewGame,
+  updateGame
 }
 

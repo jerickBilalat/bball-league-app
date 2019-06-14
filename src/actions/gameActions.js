@@ -31,17 +31,24 @@ export function loadGames() {
 export function saveGame(game, gameID) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
+
+    if(gameID) {
+      return gameAPI
+        .updateGame(game, gameID)
+        .then( res => dispatch(updateGameSuccess(res.data)) )
+        .catch(error => {
+          dispatch(ajaxCallError(error));
+          throw(error);
+        })
+    }
+
     return gameAPI
-      .saveGame(game, gameID)
-      .then(res => {
-        gameID 
-        ? dispatch(updateGameSuccess(res.data)) 
-        : dispatch(createGameSuccess(res.data))
-        return
-      })
+      .createNewGame(game)
+      .then(res => dispatch(createGameSuccess(res.data)) )
       .catch(error => {
         dispatch(ajaxCallError(error));
         throw(error);
       })
+    
   };
 }

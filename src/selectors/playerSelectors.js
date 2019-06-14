@@ -25,7 +25,7 @@ export function rankPlayers(players, mostPlayedGameType = 3) {
   // calculate average or median participation which for now should be the average between top 8 or 6 active players, 
   // if most games are played 4 vs 4, for now let's assume it's 4v4
   let sumOfTopAttendees = players
-      .map( player => player.gamesPlayed)
+      .map( player => { return player.gamesPlayed})
       .sort((a,b) => b - a)
       .slice(0, (mostPlayedGameType * 2))
       .reduce((prev, cur) => cur += prev, 0 )
