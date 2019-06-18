@@ -54,24 +54,44 @@ const styles = theme => ({
 class LogIn extends React.Component {
 
   state = {
-    errors: {},
-    fields: {
-      name: "",
-      password: ""
-    }
+    errorMessage: '',
+    name: '',
+    password: ''
   }
 
+  isFormValid = () => {
+    const {name, password} = this.state
+    if(name.length === 0 || password.length === 0) {
+      this.setState({errorMessage:'Name and Password fields are required'})
+      return false
+    }
+    return true
+  }
   onSubmit = (e) => {
     e.preventDefault()
-    this.props.dispatch(login({name: "admin", password: "#pinoybball"}))
+    if(!this.isFormValid()) return
+    const {name, password} = this.state
+    
+    this.props.dispatch(login({name, password}))
     .then( () => {
       this.props.history.push("/")
     })
+    .catch( error => {
+     const message = error.response.data.error.message
+      this.setState({errorMessage: message})
+    })
   }
 
+  onChange = (e) => {
+    const {name, value}= e.target
+    return this.setState({
+      [name] : value
+    })
+  }
 
   render() {
-    const {classes} = this.props
+    const {classes} = this.props,
+          {errorMessage} = this.state
     return (
       <main className={classes.main}>
         <CssBaseline />
@@ -83,13 +103,21 @@ class LogIn extends React.Component {
             Log in
           </Typography>
           <form className={classes.form}>
+          {errorMessage  && 
+            <Typography component="p" color="error">
+                  {errorMessage}
+            </Typography>
+          }
+          <Typography component="p" variant="caption">
+            *required
+          </Typography>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="name">Name</InputLabel>
-              <Input id="email" type="text" name="name" autoFocus />
+              <InputLabel htmlFor="name" >Name</InputLabel>
+              <Input name="name" type="text" id="name" value={this.state.name} onChange={this.onChange} />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input name="password" type="password" id="password" />
+              <InputLabel htmlFor="password" >Password</InputLabel>
+              <Input name="password" type="password" id="password" value={this.state.password} onChange={this.onChange} />
             </FormControl>
             <Button
               type="submit"

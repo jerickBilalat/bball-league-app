@@ -23,8 +23,6 @@ function login(credentials) {
     })
 }
 
-// todo loutout
-
 // PLAYERS
 function getAllPlayers() {
   return api

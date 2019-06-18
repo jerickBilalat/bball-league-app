@@ -16,6 +16,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Mood from "@material-ui/icons/Mood";
 import Button from '@material-ui/core/Button';
 
+// actions
+import {logout} from './actions/authActions'
 
 const drawerWidth = 240;
 
@@ -126,13 +128,15 @@ class Layout extends React.Component {
               noWrap
               className={classes.title}
             >
-              Bball League
+              {(user && user.name) || 'Bball League'}
             </Typography>
-            {user && user.admin
+            { user
             ? <Button 
                 component={Link}
                 to={"/login"}
-                color="inherit">
+                color="inherit"
+                onClick={ e => this.props.dispatch(logout())}
+              >
                 Log Out
               </Button> 
             : <Button 

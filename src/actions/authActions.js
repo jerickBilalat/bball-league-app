@@ -1,15 +1,11 @@
 
-import {LOGIN_SUCCESS, LOGIN_ERROR} from "./actionTypes"
+import {LOGIN_SUCCESS, CLIENT_LOGOUT} from "./actionTypes"
 import API from "../api"
 
 
 function loginSuccess(user) {
   return { type: LOGIN_SUCCESS, user }
 }
-function loginFailure(error) {
-  return { type: LOGIN_ERROR, error }
-}
-
 
 export function login(credentials) {
   return function(dispatch) {
@@ -18,8 +14,11 @@ export function login(credentials) {
       .then( user => {
         dispatch(loginSuccess(user))
       })
-      .catch( error => {
-        dispatch(loginFailure(error))
-      })
   }
+}
+
+
+export function logout() {
+  window.localStorage.removeItem('token')
+  return { type: CLIENT_LOGOUT, user: null }
 }
