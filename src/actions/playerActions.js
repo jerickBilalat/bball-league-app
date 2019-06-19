@@ -1,5 +1,4 @@
 import * as types from './actionTypes';
-import mockPlayerAPI from '../api/mockPlayerAPI';
 import playerAPI from '../api';
 import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
 

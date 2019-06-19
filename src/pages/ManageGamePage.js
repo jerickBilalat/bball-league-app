@@ -194,7 +194,6 @@ class ManageGamePage extends React.Component {
     if(gameID) {
       // todo wrong logic, there is no game property in the local state
       const { game: modifiedGame } =  this.state;
-      game = {};
     
       for( let key in modifiedGame) {
         if(unmodifiedGame[key] !== modifiedGame[key]) {

@@ -7,8 +7,6 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
 import thunk from 'redux-thunk';
 import Reducer from './reducers';
-import { loadPlayers } from "./actions/playerActions";
-import { loadGames } from "./actions/gameActions";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 

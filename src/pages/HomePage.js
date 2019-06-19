@@ -11,11 +11,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 
-// utils
-import {capitalize} from "../utils/index";
 
 // selectors
-import {rankPlayers, sortAlphabetically} from "../selectors/playerSelectors";
+import {rankPlayers} from "../selectors/playerSelectors";
 
 // actions
 import { loadPlayers } from "../actions/playerActions";
