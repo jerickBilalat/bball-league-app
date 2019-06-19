@@ -25,7 +25,7 @@ export default ChildComponent => {
   }
 
   function mapStateToProps(state) {
-    return { user: state.user };
+    return { user: Object.assign({}, state.user)};
   }
 
   return connect(mapStateToProps)(ComposedComponent);

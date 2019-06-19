@@ -617,7 +617,7 @@ ManageGamePage.propTypes = {
 };
 
 function selectById(games, id) {
-  let game = games.filter( item => item._id === id)[0];
+  let game = Object.assign({},games.filter( item => item._id === id)[0]);
   if(!game) return null
   return game;
 }
@@ -630,12 +630,12 @@ function mapStateToProps(state, ownProps){
   if(!gameId) {
     game = {}
   }else if(games.gameList && games.gameList.length > 0 && gameId) {
-    game = selectById(games.gameList, gameId);
+    game = selectById([...games.gameList], gameId);
   }
   
   return {
     game,
-    playerList: players
+    playerList: [...players]
   }
   
 }

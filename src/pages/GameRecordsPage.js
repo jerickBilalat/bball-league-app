@@ -63,7 +63,7 @@ GameRecordsPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   return {
-    games: state.games.games
+    games: [...state.games.gameList]
   }
 }
 

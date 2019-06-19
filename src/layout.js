@@ -164,7 +164,7 @@ Layout.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: Object.assign({}, state.user)
   }
 }
 

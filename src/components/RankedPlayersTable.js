@@ -43,7 +43,6 @@ class PlayerStatsTable extends React.Component {
   };
   render() {
     const { classes, doGoToManagePlayerPage, players, rankedPlayers } = this.props;
-
     const { isShowAllPlayers } = this.state;
 
     let rows;
@@ -59,8 +58,6 @@ class PlayerStatsTable extends React.Component {
         return createData(id, name, winningPercentage, wins, losses, gamesPlayed);
       });
     }
-    
-
 
     return (
       <Paper className={classes.root}>

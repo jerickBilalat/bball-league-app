@@ -111,11 +111,11 @@ RankingPage.propTypes = {
 
 function mapStateToProps(state, ownProps) {
   let players = [...state.players],
+      user =  state.user ? Object.assign({}, state.user) : state.user,
       games = [...state.games.gameList],
-      rankedPlayers = [...rankPlayers(state.players, state.games.mostPlayedGameType)]
-
+      rankedPlayers = [...rankPlayers([...state.players], state.games.mostPlayedGameType)]
   return {
-    user: state.user,
+    user,
     games,
     players,
     rankedPlayers
