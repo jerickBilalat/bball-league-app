@@ -32,11 +32,13 @@ function getAllPlayers() {
     })
 }
 
-function createNewPlayer(playerName) {
-  return authenticatedAPI.post('/players/create_player')
+function createNewPlayer(player) {
+  return authenticatedAPI.post('/players/create_player', player)
 }
 // todo updateRegisterdPlayer
-
+function updatePlayer(player) {
+  return authenticatedAPI.post('/players/update_player', player)
+}
 
 // GAMES
 function getAllGames() {
@@ -60,6 +62,7 @@ export default {
   getAllPlayers,
   getAllGames,
   createNewPlayer,
+  updatePlayer,
   createNewGame,
   updateGame
 }

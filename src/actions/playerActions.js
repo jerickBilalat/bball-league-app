@@ -29,19 +29,24 @@ export function loadPlayers() {
   };
 }
 
-export function savePlayer(name, playerID) {
+export function savePlayer(player, playerID) {
   return function (dispatch, getState) {
     dispatch(beginAjaxCall());
-    return playerAPI
-      .savePlayer(name)
-      .then( res => {
-        playerID
-        ? dispatch(updatePlayerSuccess(res.data))
-        : dispatch(createPlayerSuccess(res.data));
-      })
+    if(playerID) {
+      return playerAPI
+      .updatePlayer(player)
+      .then( res => dispatch(updatePlayerSuccess(res.data)))
       .catch(error => {
         dispatch(ajaxCallError(error));
         throw(error);
       });
+    }
+    return playerAPI
+    .createNewPlayer(player)
+    .then( res => dispatch(createPlayerSuccess(res.data)))
+    .catch(error => {
+      dispatch(ajaxCallError(error));
+      throw(error);
+    });
   };
 }

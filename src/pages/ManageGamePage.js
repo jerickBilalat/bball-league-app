@@ -227,10 +227,10 @@ class ManageGamePage extends React.Component {
   isPlayerValid = () => {
     const { newPlayerName  } = this.state;
     // todo update: player is now an object
-    let playerList = this.props.playerList.map(player => player.toLowerCase());
+    let playerNameList = this.props.playerList.map(player => player.name.toLowerCase());
     
     let errors = [];
-    if(playerList.includes(newPlayerName.toLowerCase())) {
+    if(playerNameList.includes(newPlayerName.toLowerCase())) {
       errors.push(`- ${newPlayerName} is already in the list`)
     }
     if(newPlayerName.length < 3) {
@@ -251,7 +251,7 @@ class ManageGamePage extends React.Component {
   }
   handleAddPlayerOnSubmit = (event) => {
     if(!this.isPlayerValid()) return;
-    this.props.dispatch(savePlayer(this.state.newPlayerName))
+    this.props.dispatch(savePlayer({name: this.state.newPlayerName}))
       .then(() => {
         this.props.dispatch(loadPlayers())
         this.setState({ newPlayerName: ""})
