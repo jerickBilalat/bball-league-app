@@ -103,7 +103,6 @@ class Layout extends React.Component {
 
   render() {
     const { classes, user } = this.props;
-
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -130,7 +129,7 @@ class Layout extends React.Component {
             >
               {(user && user.name) || 'Bball League'}
             </Typography>
-            { user
+            { user && user !== null
             ? <Button 
                 component={Link}
                 to={"/login"}
@@ -164,7 +163,7 @@ Layout.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: Object.assign({}, state.user)
+    user: state.user
   }
 }
 
