@@ -145,7 +145,12 @@ class Layout extends React.Component {
                 Log In
               </Button>
             }
-            
+            <Button 
+                component={Link}
+                to={"/register"}
+                color="inherit">
+                Register
+              </Button>
           </Toolbar>
         </AppBar>
         <main className={classes.content}>

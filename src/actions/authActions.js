@@ -22,3 +22,13 @@ export function logout() {
   window.localStorage.removeItem('token')
   return { type: CLIENT_LOGOUT, user: null }
 }
+
+export function register(credentials) {
+  return function(dispatch) {
+    return API
+      .register(credentials)
+      .then( user => {
+        dispatch(loginSuccess(user))
+      })
+  }
+}

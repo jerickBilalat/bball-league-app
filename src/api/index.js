@@ -23,6 +23,15 @@ function login(credentials) {
     })
 }
 
+function register(credentials) {
+  return api
+    .post('/auth/signup', credentials)
+    .then( res => {
+      AuthUtils.setToken(res.data.token)
+      return AuthUtils.getUser(res.data.token)
+    })
+}
+
 // PLAYERS
 function getAllPlayers() {
   return api
@@ -59,6 +68,7 @@ function updateGame(game, gameID) { return }
 
 export default {
   login,
+  register,
   getAllPlayers,
   getAllGames,
   createNewPlayer,
