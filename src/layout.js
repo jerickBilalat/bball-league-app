@@ -138,19 +138,22 @@ class Layout extends React.Component {
               >
                 Log Out
               </Button> 
-            : <Button 
-                component={Link}
-                to={"/login"}
-                color="inherit">
-                Log In
-              </Button>
+            : 
+              <React.Fragment>
+                <Button 
+                  component={Link}
+                  to={"/login"}
+                  color="inherit">
+                  Log In
+                </Button>
+                <Button 
+                  component={Link}
+                  to={"/register"}
+                  color="inherit">
+                  Register
+                </Button>
+              </React.Fragment>
             }
-            <Button 
-                component={Link}
-                to={"/register"}
-                color="inherit">
-                Register
-              </Button>
           </Toolbar>
         </AppBar>
         <main className={classes.content}>
