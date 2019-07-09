@@ -2,15 +2,13 @@ import {API_URL} from './constants'
 import axios from 'axios'
 import AuthUtils from '../utils/authUtils'
 
-const token = window.localStorage.getItem('token')
-
 const api = axios.create({
   baseURL: API_URL
 })
 
 const authenticatedAPI = axios.create({
   baseURL: API_URL,
-  headers: {'x-auth-token': token}
+  headers: {'x-auth-token': AuthUtils.getToken()}
 })
 
 // AUTH

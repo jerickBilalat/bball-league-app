@@ -52,6 +52,7 @@ function getUser() {
 export default {
   getUser,
   setToken,
+  getToken,
   isAdmin,
   removeToken
 }
