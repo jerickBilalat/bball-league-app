@@ -6,11 +6,12 @@ const api = axios.create({
   baseURL: API_URL
 })
 
-const authenticatedAPI = axios.create({
-  baseURL: API_URL,
-  headers: {'x-auth-token': AuthUtils.getToken()}
-})
-
+function getAuthenticatedPostConfig() {
+  return {
+    baseURL: API_URL,
+    headers: {'x-auth-token': AuthUtils.getToken()}
+  }
+}
 // AUTH
 function login(credentials) {
   return api
@@ -40,11 +41,11 @@ function getAllPlayers() {
 }
 
 function createNewPlayer(player) {
-  return authenticatedAPI.post('/players/create_player', player)
+  return axios.post('/players/create_player', player, getAuthenticatedPostConfig())
 }
 // todo updateRegisterdPlayer
 function updatePlayer(player) {
-  return authenticatedAPI.post('/players/update_player', player)
+  return axios.post('/players/update_player', player, getAuthenticatedPostConfig())
 }
 
 // GAMES
@@ -57,7 +58,8 @@ function getAllGames() {
 }
 
 function createNewGame(game) {
-  return authenticatedAPI.post('games/create_game', game)
+  console.log(AuthUtils.getToken())
+  return axios.post('games/create_game', game, getAuthenticatedPostConfig())
 }
 
 // todo update game
