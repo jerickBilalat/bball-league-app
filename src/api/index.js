@@ -1,14 +1,13 @@
-import {API_URL} from './constants'
 import axios from 'axios'
 import AuthUtils from '../utils/authUtils'
 
 const api = axios.create({
-  baseURL: API_URL
+  baseURL: process.env.REACT_APP_API_URL
 })
 
 function getAuthenticatedPostConfig() {
   return {
-    baseURL: API_URL,
+    baseURL: process.env.REACT_APP_API_URL,
     headers: {'x-auth-token': AuthUtils.getToken()}
   }
 }
