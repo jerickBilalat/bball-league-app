@@ -10,6 +10,8 @@ import AddIcon from '@material-ui/icons/Add';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 // selectors
@@ -39,6 +41,9 @@ const styles = theme => ({
     bottom: theme.spacing.unit * 3,
     right: theme.spacing.unit * 3,
   },
+  progress: {
+    margin: theme.spacing.unit * 2,
+  },
 });
 
 
@@ -67,9 +72,55 @@ class RankingPage extends React.Component {
   handleTableChange = (e) => {
     this.setState({isShowRankedPlayers : !this.state.isShowRankedPlayers})
   }
+
+  renderSelectedTabContent = () => {
+    const { value } = this.state;
+    const { classes, players, rankedPlayers, games } = this.props;
+    if(value === 0) {
+      return (
+        <div className={classes.tableContainer}>
+          <RankedPlayersTable doGoToManagePlayerPage={this.doGoToManagePlayerPage} players={players} rankedPlayers={rankedPlayers}/>          
+        </div>
+      ) 
+    } else if( value === 1) {
+      return (
+        <div className={classes.tableContainer}>
+          <GameRecordsTable doGoToManageGamePage={this.doGoToManageGamePage} games={games}/>
+        </div>
+      )
+    }
+  }
+
+  renderAddGameIcon = () => {
+    const { user, classes } = this.props;
+    return (
+      user && 
+        <Fab color="primary" aria-label="Add" component={Link} to={"/manage_game"} className={classes.fab}>
+          <AddIcon />
+        </Fab>
+    )
+  }
+
+  renderProgressCircle = () => {
+    const {classes} = this.props;
+    return (
+      <>
+        <CircularProgress size={50} className={classes.progress} />
+        <p>Loading player list</p>
+      </>
+    )
+  }
+  renderHomeMainContent = () => {
+    const { players} = this.props;
+    if(players.length > 1) {
+      return this.renderSelectedTabContent()
+    }else {
+      return this.renderProgressCircle()
+    }
+  }
+
   render() {
-    const { classes, players, rankedPlayers, games, user} = this.props,
-          {value} = this.state;
+    const { classes} = this.props;
     return (
       <Fragment>
         <Paper className={classes.tabRoot}>
@@ -84,19 +135,10 @@ class RankingPage extends React.Component {
             <Tab label="Game Records" />
           </Tabs>
         </Paper>
-          {value === 0 && <div className={classes.tableContainer}>
-              <RankedPlayersTable doGoToManagePlayerPage={this.doGoToManagePlayerPage} players={players} rankedPlayers={rankedPlayers}/>          
-            </div>
-          }
-          {value === 1 && <div className={classes.tableContainer}>
-          <GameRecordsTable doGoToManageGamePage={this.doGoToManageGamePage} games={games}/>
-        </div>}
-        {user && 
-          <Fab color="primary" aria-label="Add" component={Link} to={"/manage_game"} className={classes.fab}>
-            <AddIcon />
-          </Fab>
-        }
-        
+
+        {this.renderHomeMainContent()}
+        {this.renderAddGameIcon()}
+
       </Fragment>
     );
   }
